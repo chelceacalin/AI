@@ -1,9 +1,14 @@
 **/node_modules/ 
 **/.env/ 
 **/.idea/ 
+**/misc/ 
+misc/
+.idea/
 **/.venv/ 
 **/__pycache__/ 
 __pycache__/ 
-.env/ 
+.env/
+myenv
+myenv/
 SemanticSearchMoviesAtlasDB/.env
 **/SemanticSearchMoviesAtlasDB/.env
