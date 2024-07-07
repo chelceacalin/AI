@@ -12,3 +12,5 @@ myenv
 myenv/
 SemanticSearchMoviesAtlasDB/.env
 **/SemanticSearchMoviesAtlasDB/.env
+**/.env
+**/ImageAi/.env
