@@ -11,10 +11,6 @@ if 'context' not in st.session_state:
 
 context: str = ""
 
-options: List[str] = ["Help me solve the following problem received as an image with a concise answer",
-                      "Give me just the right answer to the following grid question ",
-                      "Answer the following question correctly and concisely"]
-
 with st.sidebar:
     st.title('Upload Image')
     print_spaces(2)
@@ -30,7 +26,7 @@ with st.sidebar:
 
     magic_options: st.selectbox = st.selectbox(
         "Give context for LLM",
-        (["The language is C# ASP.NET"]),
+        (get_magic_options()),
         index = None,
         placeholder = "Select contact method...",
     )
@@ -38,7 +34,7 @@ with st.sidebar:
     print_spaces(1)
     option = st.selectbox(
         "Select a predefined query",
-        options,
+        get_predefined_query(),
         index = None,
         placeholder = "Choose a predefined prompt"
     )
@@ -52,8 +48,7 @@ if uploaded_file is not None:
     st.image(uploaded_file, caption = uploaded_file.name)
 
 if submit_button:
-    st.text("")
-    st.text("")
+    print_spaces(2)
     if uploaded_file is not None:
         base64_encoded_data = base64.b64encode(uploaded_file.getvalue()).decode('utf-8')
         res = ""

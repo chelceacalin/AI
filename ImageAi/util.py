@@ -1,6 +1,6 @@
 import os
 import time
-
+from typing import List
 import requests
 import streamlit as st
 from dotenv import load_dotenv
@@ -86,10 +86,12 @@ def send_text_request(query: str, context: str, agree: bool, magic_options):
 
     response = requests.post("https://api.openai.com/v1/chat/completions", headers = headers, json = payload)
     response_data = response.json()
+
+    print("respo ", response_data)
     if "choices" in response_data:
         return response_data["choices"][0]["message"]["content"], formatted_query
     else:
-        return "Error: " + response_data.get("error", {}).get("message", "Unknown error")
+        return "Error: " + response_data.get("error", {}).get("message", "Unknown error"), "Error"
 
 
 def print_spaces(lines: int):
@@ -101,3 +103,14 @@ def stream_data(text: str):
     for word in text.split(" "):
         yield word + " "
         time.sleep(0.02)
+
+
+def get_predefined_query() -> List[str]:
+    return ["Help me solve the following problem received as an image with a concise answer",
+            "Give me just the right answer to the following grid question ",
+            "Answer the following question correctly and concisely"]
+
+
+def get_magic_options() -> List[str]:
+    return ["The language is Java using Spring Framework",
+            "You are an useful assistant that responds to the question accurately"]
