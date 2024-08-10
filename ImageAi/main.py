@@ -1,6 +1,4 @@
-import base64
-from typing import List
-
+from streamlitUtils import *
 from util import *
 
 st.set_page_config(page_title = "Image Helper", layout = "wide")
@@ -32,7 +30,7 @@ with st.sidebar:
     )
 
     print_spaces(1)
-    option = st.selectbox(
+    predefinedQuery = st.selectbox(
         "Select a predefined query",
         get_predefined_query(),
         index = None,
@@ -40,7 +38,7 @@ with st.sidebar:
     )
 
     print_spaces(3)
-    agree = st.checkbox("Use Context")
+    useContext = st.checkbox("Use Context")
     submit_button = st.button("Get Answer")
 
 if uploaded_file is not None:
@@ -50,31 +48,6 @@ if uploaded_file is not None:
 if submit_button:
     print_spaces(2)
     if uploaded_file is not None:
-        base64_encoded_data = base64.b64encode(uploaded_file.getvalue()).decode('utf-8')
-        res = ""
-        ans = ""
-        with st.spinner('Wait for it...'):
-            if query:
-                res, ans = send_request(query = query, img64 = base64_encoded_data, agree = agree,
-                                        context = st.session_state.context,
-                                        magic_options = magic_options)
-                st.session_state.context = f"Last Question: {query}\n"
-            else:
-                res, ans = send_request(query = option, img64 = base64_encoded_data, agree = agree,
-                                        context = st.session_state.context,
-                                        magic_options = magic_options)
-                st.session_state.context = f"Last Question: {query}\n"
-        #st.write(f"Query: \n {ans}")
-        print_spaces(2)
-        st.write_stream(stream_data(res))
-        st.session_state.context += f"Answer to last question: {res}\n"
-        st.success('Done!')
+        generate_answer_for_image_question(uploaded_file, st, query, useContext, magic_options, predefinedQuery)
     else:
-        with st.spinner('Wait for it...'):
-            res, ans = send_text_request(query = query, context = st.session_state.context, agree = agree,
-                                         magic_options = magic_options)
-            #st.write(f"Query: \n {ans}")
-            st.session_state.context = f"Last Question: {query}\n"
-            st.session_state.context += f"Answer to last question: {res}\n"
-            st.write_stream(stream_data(res))
-            st.success('Done!')
+        generate_answer_for_text_question(st, query, useContext, magic_options)

@@ -14,3 +14,6 @@ SemanticSearchMoviesAtlasDB/.env
 **/SemanticSearchMoviesAtlasDB/.env
 **/.env
 **/ImageAi/.env
+**/ImageAi/data
+**/ImageAi/.venv
+ImageAi.rar

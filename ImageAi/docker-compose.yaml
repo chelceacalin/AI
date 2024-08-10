@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  chromadb:
+    image: chromadb/chroma:latest
+    container_name: chromadb
+    ports:
+      - "8000:8000"
+    volumes:
+      - chromadb_data:/app/data
+    networks:
+      - chroma_network
+  admin:
+    image: fengzhichao/chromadb-admin
+    container_name: chroma-admin
+    ports:
+      - "3001:3000"
+    networks:
+      - chroma_network
+    environment:
+      - CHROMADB_URL=http://chromadb:8000
+volumes:
+  chromadb_data:
+
+# http://host.docker.internal:8000 -- chroma db
+
+
+networks:
+  chroma_network:
+    driver: bridge
